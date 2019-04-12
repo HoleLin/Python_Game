@@ -16,6 +16,7 @@ from setting import Setting
 from ship import Ship
 from pygame.sprite import Group
 from alien import Alien
+from game_status import GameStats
 
 
 def run_game():
@@ -34,16 +35,25 @@ def run_game():
     # 创建一个用于存储子弹的编组
     bullets = Group()
     # 创建一个外星人
-    alien = Alien(ai_settings, screen)
+    # alien = Alien(ai_settings, screen)
+
+    # 创建一群外星人
+    aliens = Group()
+    gf.create_fleet(ai_settings, screen, ship, aliens)
+
+    # 创建用于存储游戏统计信息的实例
+    status = GameStats(ai_settings)
 
     # 开始游戏的主循环
     while True:
         # 检查退出
         gf.check_events(ai_settings, screen, ship, bullets)
-        ship.update()
-        gf.update_bullets(bullets)
+        if status.game_active:
+            ship.update()
+            gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+            gf.update_aliens(ai_settings, status, screen, ship, aliens, bullets)
         # 刷新屏幕
-        gf.update_screen(ai_settings, screen, ship,alien, bullets)
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
 
 if __name__ == '__main__':

@@ -56,3 +56,8 @@ class Ship():
         # 根据self.center更新rect对象
         self.rect.centerx = self.centerx
         self.rect.centery = self.centery
+
+    def ship_center(self):
+        """让飞船在屏幕居中"""
+        self.centerx = self.screen_rect.centerx
+        self.rect.bottom = self.screen_rect.bottom
